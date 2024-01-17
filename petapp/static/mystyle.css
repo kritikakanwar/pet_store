@@ -1,0 +1,66 @@
+body
+{
+    height: 100%;
+}
+.petdetaildiv
+{
+    width: 80%;
+    margin: auto;
+    background: #d3d3d347;
+    padding: 20px;
+}
+p
+{
+    display: inline-block;
+}
+.formconatiner
+{
+    border: 1px solid grey;
+    border-color: snow;
+    /* border-radius: 20px; */
+    /* border-top-left-radius: 6pc; */
+    background:#ffffff7a;
+    box-shadow: 1px 5px 10px 5px #7080904a;
+    display: flex;
+    width: 80%;
+    margin: auto;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+.form
+{
+    width: 80%;
+    margin: auto;
+    padding: 10px;
+}
+.formimage
+{
+    width:60%
+}
+.formimage img
+{
+    height: 100%;
+    width: 100%;
+    /* border-radius: 20px;
+    border-top-left-radius: 5pc; */
+    
+}
+.nav-item-a 
+{
+    color: lightcyan;
+}
+#addpet:hover
+{
+background-color: white;
+color:darkgreen;
+}
+#search-btn :hover
+{
+    background-color: darkolivegreen;
+    color:white;
+}
+#addpet:hover
+{
+    background-color: white;
+    color:darkolivegreen;
+}

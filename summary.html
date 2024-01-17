@@ -1,0 +1,314 @@
+{%extends 'menubar.html'%}
+<html>
+    <body>
+        
+    <head>
+        <style>
+            body{
+    background: #ddd;
+    min-height: 100vh;
+    vertical-align: middle;
+    display: flex;
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.title{
+    margin-bottom: 5vh;
+}
+.card{
+    margin: auto;
+    max-width: 950px;
+    width: 90%;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 1rem;
+    border: transparent;
+}
+@media(max-width:767px){
+    .card{
+        margin: 3vh auto;
+    }
+}
+.cart{
+    background-color: #fff;
+    padding: 4vh 5vh;
+    border-bottom-left-radius: 1rem;
+    border-top-left-radius: 1rem;
+}
+@media(max-width:767px){
+    .cart{
+        padding: 4vh;
+        border-bottom-left-radius: unset;
+        border-top-right-radius: 1rem;
+    }
+}
+.summary{
+    background-color: #ddd;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    padding: 4vh;
+    color: rgb(65, 65, 65);
+}
+@media(max-width:767px){
+    .summary{
+    border-top-right-radius: unset;
+    border-bottom-left-radius: 1rem;
+    }
+}
+.summary .col-2{
+    padding: 0;
+}
+.summary .col-10
+{
+    padding: 0;
+}.row{
+    margin: 0;
+}
+.title b{
+    font-size: 1.5rem;
+}
+.main{
+    margin: 0;
+    padding: 2vh 0;
+    width: 100%;
+}
+.col-2, .col{
+    padding: 0 1vh;
+}
+a{
+    padding: 0 1vh;
+}
+.close{
+    margin-left: auto;
+    font-size: 0.7rem;
+}
+img{
+    width: 3.5rem;
+}
+.back-to-shop{
+    margin-top: 4.5rem;
+}
+h5{
+    margin-top: 4vh;
+}
+hr{
+    margin-top: 1.25rem;
+}
+form{
+    padding: 2vh 0;
+}
+select{
+    border: 1px solid rgba(0, 0, 0, 0.137);
+    padding: 1.5vh 1vh;
+    margin-bottom: 4vh;
+    outline: none;
+    width: 100%;
+    background-color: rgb(247, 247, 247);
+}
+input{
+    border: 1px solid rgba(0, 0, 0, 0.137);
+    padding: 1vh;
+    margin-bottom: 4vh;
+    outline: none;
+    width: 100%;
+    background-color: rgb(247, 247, 247);
+}
+input:focus::-webkit-input-placeholder
+{
+      color:transparent;
+}
+.btn{
+    background-color: #000;
+    border-color: #000;
+    color: white;
+    width: 100%;
+    font-size: 0.7rem;
+    margin-top: 4vh;
+    padding: 1vh;
+    border-radius: 0;
+}
+.btn:focus{
+    box-shadow: none;
+    outline: none;
+    box-shadow: none;
+    color: white;
+    -webkit-box-shadow: none;
+   
+    transition: none; 
+}
+.btn:hover{
+    color: white;
+}
+a{
+    color: black; 
+}
+a:hover{
+    color: black;
+    text-decoration: none;
+}
+ #code{
+    background-image: linear-gradient(to left, rgba(255, 255, 255, 0.253) , rgba(255, 255, 255, 0.185)), url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
+    background-repeat: no-repeat;
+    background-position-x: 95%;
+    background-position-y: center;
+}
+
+        </style>
+<script>
+    var amount= 2000
+ function initPayPalButton() {
+    document.getElementById("paypapl").style.visibility ="hidden";
+paypal.Buttons({
+
+style: {
+
+shape: 'rect',
+
+color: 'gold',
+
+layout: 'vertical',
+
+label: 'paypal',
+
+
+
+},
+
+
+
+createOrder: function(data, actions) {
+
+return actions.order.create({
+
+  purchase_units: [{"amount":{"currency_code":"USD","value":amount}}]
+
+});
+
+},
+
+
+
+onApprove: function(data, actions) {
+
+return actions.order.capture().then(function(orderData) {
+
+ console.log(orderData)
+
+  // Full available details
+
+  console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+
+
+  
+
+  // Show a success message within this page, e.g.
+
+  const element = document.getElementById('paypal-button-container');
+
+  element.innerHTML = '';
+
+  element.innerHTML = '<h3>Thank you for your payment!</h3>'+orderData['id'];
+  var data = orderData['id']
+  const dsubmit = document.getElementById('oid');
+  dsubmit.value = data;
+
+
+//  document.getElementById("datasubmit").form.submit();
+
+   window.location.href='http://localhost:8000/payments/'+data
+
+ 
+
+
+ 
+
+});
+
+},
+
+
+
+onError: function(err) {
+
+console.log(err);
+
+}
+
+}).render('#paypal-button-container');
+
+}
+
+
+
+</script>
+    </head>
+{%block mycontent%}
+<div class="summarypage" style="display: flex; margin: 20px auto; width: 80%;">
+<div class="card">
+    <div class="row">
+        <div class="col-md-8 cart">
+            <div class="title">
+                <div class="row">
+                    <div class="col"><h4><b>Shopping Cart</b></h4></div>
+                    
+                   
+                </div>
+            </div>  
+            {%for i in petobj%}  
+            <div class="row border-top border-bottom">
+                <div class="row main align-items-center">
+                    <div class="col-2"><img class="img-fluid" src="{{i.productid.Image.url}}"></div>
+                    <div class="col">
+                        <div class="row text-muted">{{i.productid.Species}}</div>
+                        <div class="row">{{i.productid.Breed}}</div>
+                    </div>
+                    <div class="col">Quantity:
+                       <a href="#" class="border; text-decoration:none">{{i.quantity}}</a>
+                    </div>
+                    <div class="col">&#x20B9; {{i.Totalamt}} </div>
+                </div>
+            </div>
+           
+            {%endfor%}
+        </div>
+    </div>
+            <div class="col align-self-center text-right text-muted"></div>
+            <div class="back-to-shop"><a href="{%url 'petList'%}">&leftarrow;Back to shop</a><span class="text-muted"></span></div>
+        </div>
+        <div class="col-lg-4 payment-summary">
+            <p class="fw-bold pt-lg-0 pt-4 pb-2" style="color: #000;">Payment Summary</p>
+            <div class="card px-md-3 px-2 pt-4">
+                
+              
+                <div class="unregistered mb-4"> <span class="py-1">Total Bill :   {{totalbill}} Rs.</span> </div>
+              
+                <div class="unregistered mb-4"> <span class="py-1">Address</span> </div>
+                <form method="POST" action="{% url 'placeorder' %}">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-between b-bottom" style="padding: 10px;"> <input type="text" class="ps-1" placeholder="Name" name="name">
+                    </div>
+                    <div class="d-flex justify-content-between b-bottom" style="padding: 10px;"> <input type="text" class="ps-1" placeholder="Address" name="address">
+                    </div>
+                    <div class="d-flex justify-content-between b-bottom" style="padding: 10px;"> <input type="text" class="ps-1" placeholder="Phoneno" name="phoneno">
+                        </div>
+                    <div class="d-flex justify-content-between b-bottom" style="padding: 10px;"> <input type="text" class="ps-1" placeholder="City" name="city">
+                    </div>
+                    <div class="d-flex justify-content-between b-bottom" style="padding: 10px;"> <input type="text" class="ps-1" placeholder="State" name="state">
+                    </div>
+                    <div class="d-flex justify-content-between b-bottom" style="padding: 10px;"> <input type="text" class="ps-1" placeholder="Pincode" name="pincode">
+                    </div><input type="hidden" name="totalbillamount" value="{{totalbill}}">
+                    <button input="submit" name="Submit">Add Address and Place Order</button>
+                </form>
+                    <div class="sale my-3"> <div id="paypal-button-container"></div> </div>
+                </div>
+            </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    
+        {%include 'footer.html'%}
+{%endblock%}
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+{%include 'menubar.html'%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<style>
+  #addpet:hover
+  {
+    
+    background-color: white;
+    color:darkolivegreen;
+
+  }
+</style>
+</head>
+<body>
+  {% block mycontent %}
+<section style="background-color: #eee; display: flex;">
+  <div class="container py-5">
+    <div class="row">
+      {% for i in petobj%}
+      <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
+        <div class="card" style="    box-shadow: 2px 2px 2px 1px grey;
+        margin-bottom: 10px;">
+          <div class="d-flex justify-content-between p-3">
+            <p class="lead mb-0" style="color: darkslategray;">Pet</p>
+            <!-- <div
+              class="bg-info rounded-circle d-flex align-items-center justify-content-center shadow-1-strong"
+              style="width: 35px; height: 35px;">
+              <p class="text-white mb-0 small"></p>
+            </div> -->
+          </div>
+          <img src="{{i.Image.url}}"
+            class="card-img-top" alt="Laptop" style="object-fit:cover;object-position: center; width: 300px;  height: 200px; margin: auto;"/>
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <p class="small" style="text-decoration: none; color: darkslategrey;"><span>Name:</span>{{i.Name}}</p>
+              <p class="small" style="color: blue;">Rs {{i.Price}}</p>
+            </div>
+
+            <div class="d-flex justify-content-between mb-3">
+              <h5 class="mb-0"><span>Breed:</span>{{i.Breed}}</h5>
+              <h5 class="text-dark mb-0"><span>Age:</span>{{i.Age}}</h5>
+            </div>
+
+            <div class="d-flex justify-content-between mb-2">
+              
+              <a href="../petdetail/{{i.slug}}/">Show Detail</a>
+              <form action="{%url 'atc' %}" method="post">
+                {%csrf_token%}
+                <input type="hidden" name="pid" value="{{i.id}}">
+                <button class =' mb-0' id='addpet'type="submit" style="background-color: darkolivegreen;
+                color: white;     border-radius: 12px;     width: 150px;">Add to cart</button>
+
+              </form>
+                          </div>
+          </div>
+        </div>
+      </div>
+      {%endfor%}
+    </div>
+    </div>
+
+</section>
+{%include 'footer.html'%}
+{%endblock%}
+</body>
+</html>
